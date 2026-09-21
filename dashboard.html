@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>台灣新聞輿情 Dashboard · Google News Top10 彙整分析 2026/09/09–09/21</title>
+<title>台灣新聞輿情 Dashboard · Google News Top10 彙整分析 2026/09/09–2026/09/21</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#e9f5f1;--card:#ffffff;--line:#cfe4dd;--fg:#0f3d39;--mut:#5d7f79;
@@ -37,6 +37,7 @@ th{color:var(--mut);font-weight:600;font-size:12px}
 .report{font-size:13px;line-height:1.9}
 .report h1{font-size:20px;margin:10px 0 6px}
 .report h2{font-size:16px;margin:18px 0 8px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.report h3{font-size:14px;margin:12px 0 6px}
 .report p{margin:8px 0}
 .report li{margin:4px 0}
 .report table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
@@ -48,7 +49,7 @@ th{color:var(--mut);font-weight:600;font-size:12px}
 </head>
 <body>
 <h1>台灣新聞輿情 Dashboard</h1>
-<div class="sub">資料來源:G:\我的雲端硬碟 GoogleNews_Top10_2026*.csv(38 個快照檔)· Google News 台灣熱門新聞 Top 10 · 期間 2026/09/09–09/21</div>
+<div class="sub">資料來源:G:\我的雲端硬碟 GoogleNews_Top10_2026*.csv(38 個快照檔)· Google News 台灣熱門新聞 Top 10 · 期間 2026/09/09–2026/09/21 · 每週自動更新(關鍵字規則,無人工覆核)</div>
 
 <div class="kpis" id="kpis"></div>
 
@@ -57,8 +58,7 @@ th{color:var(--mut);font-weight:600;font-size:12px}
     <div class="note" id="nPie"></div></div>
   <div class="card"><h2>新聞類別聲量(上榜次數)</h2><canvas id="cBar"></canvas>
     <div class="note">同一則新聞在多日/多個快照重複上榜即累計,代表話題延續性。</div></div>
-  <div class="card"><h2>政治 · AI · 經濟 · 國際 — 逐日聲量趨勢</h2><canvas id="cTrend"></canvas>
-    <div class="note">政治聲量全期居冠(日均 15.8 次);國際隨美伊衝突與川習會前瞻起伏;AI/科技僅在蘋果發表會(09/10)前後進榜。</div></div>
+  <div class="card"><h2>政治 · AI · 經濟 · 國際 — 逐日聲量趨勢</h2><canvas id="cTrend"></canvas></div>
   <div class="card"><h2>執政 vs 在野 — 批判聲量逐日堆疊</h2><canvas id="cStack"></canvas>
     <div class="note">僅計政治新聞中具批判/互批語態者。互批折半計入雙方。</div></div>
   <div class="card"><h2>政治新聞立場結構</h2><canvas id="cStance"></canvas>
@@ -75,502 +75,53 @@ th{color:var(--mut);font-weight:600;font-size:12px}
     <div class="note">各媒體進榜新聞的類別堆疊,可看出不同媒體的議題偏重。</div></div>
 </div>
 
-<div class="card"><h2>完整分析報告</h2><div class="report"><h1>台灣新聞輿情統計報告</h1>
-<p><strong>資料來源</strong>:<code>G:\我的雲端硬碟\GoogleNews_Top10_2026*.csv</code>(38 個快照檔)
+<div class="card"><h2>完整分析報告(自動生成)</h2><div class="report"><h1>台灣新聞輿情統計報告(自動更新版)</h1>
+<p><strong>資料來源</strong>:<code>G:\我的雲端硬碟\GoogleNews_Top10_*.csv</code>(38 個快照檔)
 <strong>資料期間</strong>:2026/09/09 – 2026/09/21(13 天)
 <strong>樣本規模</strong>:380 筆上榜記錄,去重後 221 則不重複新聞
-<strong>產出時間</strong>:2026-09-21</p>
+<strong>產出時間</strong>:2026-09-21(每週自動更新)</p>
 <hr />
 <h2>一、總覽</h2>
-<table>
-<thead>
-<tr>
-<th>指標</th>
-<th>數值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>快照檔案數</td>
-<td>38</td>
-</tr>
-<tr>
-<td>上榜總筆次(聲量基準)</td>
-<td>380</td>
-</tr>
-<tr>
-<td>不重複新聞則數</td>
-<td>221</td>
-</tr>
-<tr>
-<td>政治類新聞(不重複)</td>
-<td>120 則(54.3%)</td>
-</tr>
-<tr>
-<td>四大焦點類別合計</td>
-<td>政治+國際+經濟+AI = 159 則(71.9%)</td>
-</tr>
-</tbody>
-</table>
-<p>期間三大主軸:<strong>(1) 美伊海上衝突與川普「重大決定」</strong>(國際)、<strong>(2) 張俊傑共諜逃亡案、不副署憲政爭議、彰化謝家賄選案</strong>(政治負面)、<strong>(3) 台北市長選戰「洋流」現象——沈伯洋掃街人潮與金句大量擴散,對決蔣萬安英文爭議</strong>(選戰)。</p>
+<table><thead><tr><th>指標</th><th>數值</th></tr></thead><tbody><tr><td>快照檔案數</td><td>38</td></tr><tr><td>上榜總筆次</td><td>380</td></tr><tr><td>不重複新聞則數</td><td>221</td></tr><tr><td>政治類新聞</td><td>115 則(52.0%)</td></tr><tr><td>政治立場語態新聞</td><td>99 則(44.8%)</td></tr></tbody></table>
 <hr />
-<h2>二、台灣媒體四大議題:比重、趨勢、聲量</h2>
-<h3>2.1 比重(221 則不重複新聞)</h3>
-<table>
-<thead>
-<tr>
-<th>類別</th>
-<th>則數</th>
-<th>比重</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>政治(含選舉、兩岸、國防)</td>
-<td>120</td>
-<td><strong>54.3%</strong></td>
-</tr>
-<tr>
-<td>國際</td>
-<td>26</td>
-<td>11.8%</td>
-</tr>
-<tr>
-<td>經濟財經</td>
-<td>10</td>
-<td>4.5%</td>
-</tr>
-<tr>
-<td>AI 科技</td>
-<td>3</td>
-<td>1.4%</td>
-</tr>
-<tr>
-<td>(其餘:生活氣象 32、社會 20、娛樂 5、體育 2、其他 3)</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3>2.2 聲量(380 筆上榜次數,重複進榜累計)</h3>
-<table>
-<thead>
-<tr>
-<th>類別</th>
-<th>筆次</th>
-<th>比重</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>政治</td>
-<td>206</td>
-<td><strong>54.2%</strong></td>
-</tr>
-<tr>
-<td>國際</td>
-<td>47</td>
-<td>12.4%</td>
-</tr>
-<tr>
-<td>經濟財經</td>
-<td>17</td>
-<td>4.5%</td>
-</tr>
-<tr>
-<td>AI 科技</td>
-<td>5</td>
-<td>1.3%</td>
-</tr>
-</tbody>
-</table>
-<h3>2.3 逐日趨勢(上榜筆次)</h3>
-<table>
-<thead>
-<tr>
-<th>日期</th>
-<th>政治</th>
-<th>國際</th>
-<th>經濟</th>
-<th>AI科技</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>09/09</td>
-<td>12</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/10</td>
-<td>15</td>
-<td>7</td>
-<td>2</td>
-<td>3</td>
-</tr>
-<tr>
-<td>09/11</td>
-<td>19</td>
-<td>6</td>
-<td>2</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/12</td>
-<td>7</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-</tr>
-<tr>
-<td>09/13</td>
-<td>19</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/14</td>
-<td>18</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/15</td>
-<td>13</td>
-<td>6</td>
-<td>3</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/16</td>
-<td>16</td>
-<td>5</td>
-<td>3</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/17</td>
-<td>18</td>
-<td>0</td>
-<td>2</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/18</td>
-<td>18</td>
-<td>2</td>
-<td>3</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/19</td>
-<td>16</td>
-<td>5</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/20</td>
-<td>18</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>09/21</td>
-<td>17</td>
-<td>6</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>解讀</strong></p>
-<ul>
-<li><strong>政治聲量全期居冠</strong>,日均 15.8 筆次,13 天中有 9 天達 16 以上,選戰、憲政與兩岸議題持續佔據超過一半版面。</li>
-<li><strong>國際</strong>聲量呈三波:美伊衝突高峰(09/10–11)、川習會與對台軍售議題(09/15–16)、川普「重大決定」與格陵蘭協議(09/19–21),09/13、09/17 兩度歸零。</li>
-<li><strong>經濟財經</strong>零星但穩定:Fed 升息、油價(中東戰事+沙國油管)、央行房市信用管制鬆綁、台積電股價。</li>
-<li><strong>AI 科技</strong>比重極低(1.4%),僅 09/10 蘋果發表會前後進榜;AI 議題多以「選舉認知戰」「川習會 AI 談判」框架進入政治類,而非科技版面。</li>
-</ul>
+<h2>二、四大議題:比重、聲量、趨勢</h2>
+<h3>2.1 類別比重(不重複則數)</h3><table><thead><tr><th>類別</th><th>則數</th><th>比重</th></tr></thead><tbody><tr><td>政治</td><td>115</td><td>52.0%</td></tr><tr><td>國際</td><td>26</td><td>11.8%</td></tr><tr><td>經濟財經</td><td>7</td><td>3.2%</td></tr><tr><td>AI科技</td><td>3</td><td>1.4%</td></tr><tr><td>社會</td><td>15</td><td>6.8%</td></tr><tr><td>生活氣象</td><td>30</td><td>13.6%</td></tr><tr><td>娛樂影視</td><td>5</td><td>2.3%</td></tr><tr><td>體育</td><td>2</td><td>0.9%</td></tr><tr><td>其他</td><td>18</td><td>8.1%</td></tr></tbody></table>
+<h3>2.2 類別聲量(上榜筆次,重複進榜累計)</h3><table><thead><tr><th>類別</th><th>筆次</th><th>比重</th></tr></thead><tbody><tr><td>政治</td><td>196</td><td>51.6%</td></tr><tr><td>國際</td><td>47</td><td>12.4%</td></tr><tr><td>經濟財經</td><td>10</td><td>2.6%</td></tr><tr><td>AI科技</td><td>5</td><td>1.3%</td></tr><tr><td>社會</td><td>22</td><td>5.8%</td></tr><tr><td>生活氣象</td><td>49</td><td>12.9%</td></tr><tr><td>娛樂影視</td><td>11</td><td>2.9%</td></tr><tr><td>體育</td><td>4</td><td>1.1%</td></tr><tr><td>其他</td><td>36</td><td>9.5%</td></tr></tbody></table>
+<h3>2.3 焦點四類逐日聲量</h3><table><thead><tr><th>日期</th><th>政治</th><th>國際</th><th>經濟</th><th>AI科技</th></tr></thead><tbody><tr><td>09/09</td><td>12</td><td>2</td><td>0</td><td>0</td></tr><tr><td>09/10</td><td>15</td><td>7</td><td>2</td><td>3</td></tr><tr><td>09/11</td><td>21</td><td>6</td><td>0</td><td>0</td></tr><tr><td>09/12</td><td>7</td><td>2</td><td>2</td><td>2</td></tr><tr><td>09/13</td><td>19</td><td>0</td><td>0</td><td>0</td></tr><tr><td>09/14</td><td>18</td><td>4</td><td>0</td><td>0</td></tr><tr><td>09/15</td><td>13</td><td>6</td><td>3</td><td>0</td></tr><tr><td>09/16</td><td>19</td><td>5</td><td>0</td><td>0</td></tr><tr><td>09/17</td><td>18</td><td>0</td><td>2</td><td>0</td></tr><tr><td>09/18</td><td>11</td><td>2</td><td>1</td><td>0</td></tr><tr><td>09/19</td><td>12</td><td>5</td><td>0</td><td>0</td></tr><tr><td>09/20</td><td>18</td><td>2</td><td>0</td><td>0</td></tr><tr><td>09/21</td><td>13</td><td>6</td><td>0</td><td>0</td></tr></tbody></table>
+<p>政治聲量日均 15.1 筆次,全期居各類之冠;國際、經濟隨國際局勢與財經事件起伏;AI 科技比重一向偏低,多於大型科技活動期間進榜。</p>
 <hr />
 <h2>三、執政 vs 在野:批判比例、趨勢、聲量</h2>
-<p>分析範圍:106 則具政治立場語態的新聞(佔全部新聞 48.0%),合計 177 筆次。</p>
-<h3>3.1 立場結構(不重複則數)</h3>
-<table>
-<thead>
-<tr>
-<th>立場</th>
-<th>則數</th>
-<th>佔政治新聞</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>批在野(藍白)</td>
-<td>38</td>
-<td>35.8%</td>
-</tr>
-<tr>
-<td>中性政治</td>
-<td>33</td>
-<td>31.1%</td>
-</tr>
-<tr>
-<td>批執政(綠)</td>
-<td>15</td>
-<td>14.2%</td>
-</tr>
-<tr>
-<td>正面執政</td>
-<td>13</td>
-<td>12.3%</td>
-</tr>
-<tr>
-<td>互批</td>
-<td>5</td>
-<td>4.7%</td>
-</tr>
-<tr>
-<td>正面在野</td>
-<td>2</td>
-<td>1.9%</td>
-</tr>
-</tbody>
-</table>
-<h3>3.2 批判聲量比例(91 筆批判+互批,互批各半計)</h3>
-<table>
-<thead>
-<tr>
-<th>指向</th>
-<th>筆次</th>
-<th>比例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>批判在野(藍白)</strong></td>
-<td>53 + 4(半) = 57</td>
-<td><strong>62.6%</strong></td>
-</tr>
-<tr>
-<td><strong>批判執政(綠)</strong></td>
-<td>30 + 4(半) = 34</td>
-<td><strong>37.4%</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>在野陣營承受的批判聲量約為執政陣營的 1.7 倍。</strong></p>
-<h3>3.3 逐日趨勢(批判指向執政比例,互批折半)</h3>
-<table>
-<thead>
-<tr>
-<th>日期</th>
-<th>批執政</th>
-<th>批在野</th>
-<th>互批</th>
-<th>指向執政%</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>09/09</td>
-<td>1</td>
-<td>8</td>
-<td>0</td>
-<td>11.1</td>
-</tr>
-<tr>
-<td>09/10</td>
-<td>3</td>
-<td>8</td>
-<td>0</td>
-<td>27.3</td>
-</tr>
-<tr>
-<td>09/11</td>
-<td>3</td>
-<td>7</td>
-<td>0</td>
-<td>30.0</td>
-</tr>
-<tr>
-<td>09/12</td>
-<td>0</td>
-<td>3</td>
-<td>0</td>
-<td>0.0</td>
-</tr>
-<tr>
-<td>09/13</td>
-<td>3</td>
-<td>3</td>
-<td>0</td>
-<td>50.0</td>
-</tr>
-<tr>
-<td>09/14</td>
-<td>0</td>
-<td>5</td>
-<td>2</td>
-<td>14.3</td>
-</tr>
-<tr>
-<td>09/15</td>
-<td>0</td>
-<td>1</td>
-<td>3</td>
-<td>37.5</td>
-</tr>
-<tr>
-<td>09/16</td>
-<td>8</td>
-<td>4</td>
-<td>1</td>
-<td><strong>65.4</strong></td>
-</tr>
-<tr>
-<td>09/17</td>
-<td>6</td>
-<td>4</td>
-<td>2</td>
-<td><strong>58.3</strong></td>
-</tr>
-<tr>
-<td>09/18</td>
-<td>3</td>
-<td>5</td>
-<td>0</td>
-<td>37.5</td>
-</tr>
-<tr>
-<td>09/19</td>
-<td>1</td>
-<td>3</td>
-<td>0</td>
-<td>25.0</td>
-</tr>
-<tr>
-<td>09/20</td>
-<td>0</td>
-<td>2</td>
-<td>0</td>
-<td>0.0</td>
-</tr>
-<tr>
-<td>09/21</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-<td>100.0*</td>
-</tr>
-</tbody>
-</table>
-<p>* 09/21 批判類僅 2 則(童子賢「一黨獨大」、鬍鬚張挺蔣遭出征),樣本小,比例僅供參考。</p>
-<h3>3.4 聲量來源拆解</h3>
-<p><strong>批判在野的主引擎(38 則)</strong></p>
-<ol>
-<li><strong>張俊傑共諜棄保逃亡案</strong>(09/09–21 持續延燒,約 14 則):棄保潛逃、接應者羈押、竹聯「小麥可」投案、第 10 人交保——全期在野最大負面聲量。</li>
-<li><strong>蔣萬安負面爭議</strong>(約 12 則):大寶交換生/雙重國籍、北市營養午餐、大巨蛋老鼠之亂、Chinese Taipei 看板,以及 09/19 起的<strong>哈佛英文演講爭議</strong>(旅美教授力挺 vs 落漆片瘋傳)。</li>
-<li><strong>在野內鬥與地方弊案</strong>(約 12 則):竹縣藍白合破局、柯文哲二審、<strong>彰化謝典霖父子涉賄羈押</strong>(魏平政聲援遭檢打臉)。</li>
-</ol>
-<p><strong>批判執政的主引擎(15 則)</strong></p>
-<ol>
-<li><strong>不副署憲政爭議</strong>(09/16–17,5 則):史丹佛學者批「公然違憲」、郭正亮「賴清德已歷史留名」——全期最強單一政治議題。</li>
-<li><strong>側翼與失言爭議</strong>:童子賢「一黨獨大非台灣人福氣」、鬍鬚張挺蔣遭綠側翼出征、林佳龍「台美共管中國」、林岱樺政治獻金案。</li>
-</ol>
-<p><strong>正面聲量觀察</strong>:「洋流」現象使<strong>正面執政新聞從 6 則(09/17 前)增至 13 則</strong>——沈伯洋掃街人潮(中壢、景美、公館)、「自由民主沒有血緣」金句萬人瘋傳、小笠原欣幸「令人驚艷」、蕭美琴訪義「見證歷史」;正面在野僅 2 則(侯友宜挺李四川、旅美教授挺蔣萬安英文)。</p>
-<p><strong>趨勢判讀</strong>:09/09–12 輿情火力集中在在野(張俊傑案+蔣萬安爭議);09/16–17 不副署爭議使批判轉向執政(65.4%、58.3%);09/18–21 選戰「洋流」主導,批判聲量明顯降溫且以正面報導為主,僅 09/21 因童子賢、鬍鬚張事件出現小額批判執政。全期仍以批判在野為主(62.6%)。</p>
+<h3>3.1 政治新聞立場結構(不重複則數)</h3><table><thead><tr><th>立場</th><th>則數</th><th>佔政治新聞</th></tr></thead><tbody><tr><td>批執政</td><td>15</td><td>15.2%</td></tr><tr><td>批在野</td><td>22</td><td>22.2%</td></tr><tr><td>互批</td><td>5</td><td>5.1%</td></tr><tr><td>正面執政</td><td>3</td><td>3.0%</td></tr><tr><td>正面在野</td><td>2</td><td>2.0%</td></tr><tr><td>中性政治</td><td>52</td><td>52.5%</td></tr></tbody></table>
+<h3>3.2 批判聲量比例(互批各半計)</h3><table><thead><tr><th>指向</th><th>筆次</th><th>比例</th></tr></thead><tbody><tr><td>批判在野(藍白)</td><td>32+4(半)=36</td><td>49.3%</td></tr><tr><td>批判執政(綠)</td><td>33+4(半)=37</td><td>50.7%</td></tr></tbody></table>
+<p><strong>本期批判聲量:在野 49.3% vs 執政 50.7%。</strong></p>
+<h3>3.3 逐日批判與「指向執政」比例</h3>
+<table><thead><tr><th>日期</th><th>批執政</th><th>批在野</th><th>互批</th><th>指向執政%</th></tr></thead><tbody><tr><td>09/09</td><td>1</td><td>3</td><td>0</td><td>25.0</td></tr><tr><td>09/10</td><td>5</td><td>3</td><td>0</td><td>62.5</td></tr><tr><td>09/11</td><td>3</td><td>5</td><td>0</td><td>37.5</td></tr><tr><td>09/12</td><td>0</td><td>1</td><td>0</td><td>0.0</td></tr><tr><td>09/13</td><td>6</td><td>3</td><td>0</td><td>66.7</td></tr><tr><td>09/14</td><td>4</td><td>2</td><td>2</td><td>62.5</td></tr><tr><td>09/15</td><td>2</td><td>3</td><td>1</td><td>41.7</td></tr><tr><td>09/16</td><td>5</td><td>4</td><td>3</td><td>54.2</td></tr><tr><td>09/17</td><td>6</td><td>1</td><td>2</td><td>77.8</td></tr><tr><td>09/18</td><td>0</td><td>3</td><td>0</td><td>0.0</td></tr><tr><td>09/19</td><td>0</td><td>3</td><td>0</td><td>0.0</td></tr><tr><td>09/20</td><td>0</td><td>1</td><td>0</td><td>0.0</td></tr><tr><td>09/21</td><td>1</td><td>0</td><td>0</td><td>100.0</td></tr></tbody></table>
+<p>公式:(批執政 + 互批×0.5) ÷ (批執政+批在野+互批)。單日批判樣本小時比例波動大,宜看 3–5 日移動趨勢。</p>
 <hr />
-<h2>四、媒體來源觀察</h2>
-<table>
-<thead>
-<tr>
-<th>媒體</th>
-<th>不重複則數</th>
-<th>備註</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Yahoo 新聞</td>
-<td>56</td>
-<td>彙整平台,政治與社會居多</td>
-</tr>
-<tr>
-<td>UDN 聯合報</td>
-<td>55</td>
-<td>各類別均多,政治最大宗</td>
-</tr>
-<tr>
-<td>三立新聞</td>
-<td>26</td>
-<td>政治、社會</td>
-</tr>
-<tr>
-<td>自由時報</td>
-<td>21</td>
-<td>政治、國際</td>
-</tr>
-<tr>
-<td>中央社 CNA</td>
-<td>11</td>
-<td>兩岸、國際通稿</td>
-</tr>
-<tr>
-<td>中時新聞網</td>
-<td>11</td>
-<td>政治</td>
-</tr>
-<tr>
-<td>鉅亨網</td>
-<td>10</td>
-<td>國際財經(美伊、Fed、油價)</td>
-</tr>
-<tr>
-<td>風傳媒</td>
-<td>7</td>
-<td>政治、生活</td>
-</tr>
-</tbody>
-</table>
-<p>Google News Top10 榜單由上述 16 家媒體包辦;政治類進榜以 Yahoo、聯合報系、三立、自由為主力。</p>
+<h2>四、媒體來源聲量(不重複則數 Top 10)</h2>
+<table><thead><tr><th>媒體</th><th>則數</th></tr></thead><tbody><tr><td>Yahoo新聞</td><td>56</td></tr><tr><td>UDN 聯合報</td><td>55</td></tr><tr><td>三立新聞</td><td>26</td></tr><tr><td>自由時報</td><td>21</td></tr><tr><td>中央社 CNA</td><td>11</td></tr><tr><td>中時新聞網</td><td>11</td></tr><tr><td>鉅亨網</td><td>10</td></tr><tr><td>風傳媒</td><td>7</td></tr><tr><td>鏡週刊</td><td>6</td></tr><tr><td>cna.com.tw</td><td>3</td></tr></tbody></table>
 <hr />
 <h2>五、方法論與限制</h2>
 <ol>
-<li><strong>去重與聲量</strong>:同一標題跨快照/跨日重複出現視為同一則新聞;「聲量」= 上榜筆次(同日多快照亦累計)。</li>
-<li><strong>分類方式</strong>:以關鍵字規則初分(政治、國際、經濟、AI科技、社會、生活氣象、娛樂、體育),<strong>全部 221 則均經人工逐則覆核</strong>並修正明顯誤判。</li>
-<li><strong>立場判定</strong>:批判動詞(轟、批、嗆、酸、打臉、違憲、羈押等)+ 政治人物陣營詞庫(綠營/藍白)比對,判斷批判指向;「互批」各折半計入雙方。高金素梅、謝家(無黨籍/國民黨地方派系)相關負面新聞歸入在野陣營。</li>
-<li><strong>限制</strong>:僅依標題語意,無法辨識內文立場;Top10 榜單反映 Google News 熱度演算法,非全媒體版面;單日批判樣本小時比例波動大(如 09/21 僅 2 則)。</li>
-<li>少數語意模糊標題(如酸諷式標題)仍可能存在歸類誤差,建議搭配 <code>classified_all.csv</code> 明細檢核。</li>
-</ol>
-<hr />
-<h2>六、產出檔案</h2>
-<ul>
-<li><code>dashboard.html</code> — 互動式儀表板(類別、趨勢、聲量、立場、媒體,內嵌本報告)</li>
-<li><code>統計報告.md</code> — 本報告</li>
-<li><code>classified_all.csv</code> — 380 筆明細(日期、排名、標題、類別、立場、來源)</li>
-<li><code>stats.json</code> — 統計資料</li>
-<li>GitHub: <a href="https://github.com/Ed2496/taiwan-news-top10-dashboard">Ed2496/taiwan-news-top10-dashboard</a></li>
-</ul>
-</div></div>
+<li>同一標題跨快照/跨日去重計為 1 則;「聲量」= 上榜筆次。</li>
+<li>分類與立場判定為<strong>關鍵字規則自動執行,無人工逐則覆核</strong>:類別以關鍵字詞庫比對;立場以批判動詞、醜聞詞、正面詞 + 綠營/藍白人物陣營詞庫判斷指向,互批各折半計入雙方。</li>
+<li>語意模糊、酸諷式標題可能存在歸類誤差,建議定期人工抽檢 <code>classified_all.csv</code> 明細。</li>
+<li>僅依標題語意,無法辨識內文立場;Top10 反映 Google News 熱度演算法,非全媒體版面。</li>
+</ol></div></div>
 
 <div class="footer" id="foot"></div>
 
 <script>
-const S = {"days": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21"], "n_files": 38, "n_rows": 380, "n_unique": 221, "cat_uni": {"政治": 120, "國際": 26, "經濟財經": 10, "AI科技": 3, "社會": 20, "生活氣象": 32, "娛樂影視": 5, "體育": 2, "其他": 3}, "cat_app": {"政治": 206, "國際": 47, "經濟財經": 17, "AI科技": 5, "社會": 33, "生活氣象": 52, "娛樂影視": 11, "體育": 4, "其他": 5}, "focus_day": {"政治": [12, 15, 19, 7, 19, 18, 13, 16, 18, 18, 16, 18, 17], "AI科技": [0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0], "經濟財經": [0, 2, 2, 2, 0, 0, 3, 3, 2, 3, 0, 0, 0], "國際": [2, 7, 6, 2, 0, 4, 6, 5, 0, 2, 5, 2, 6]}, "st_uni": {"批執政": 15, "批在野": 38, "互批": 5, "正面執政": 13, "正面在野": 2, "中性政治": 33}, "st_app": {"批執政": 30, "批在野": 53, "互批": 8, "正面執政": 23, "正面在野": 4, "中性政治": 59}, "st_day": {"批執政": [1, 3, 3, 0, 3, 0, 0, 8, 6, 3, 1, 0, 2], "批在野": [8, 8, 7, 3, 3, 5, 1, 4, 4, 5, 3, 2, 0], "互批": [0, 0, 0, 0, 0, 2, 3, 1, 2, 0, 0, 0, 0], "正面執政": [0, 0, 2, 2, 3, 3, 2, 1, 0, 0, 2, 1, 7], "正面在野": [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0], "中性政治": [0, 1, 7, 2, 3, 8, 6, 2, 3, 7, 5, 13, 2]}, "daily_ratio": [11.1, 27.3, 30.0, 0.0, 50.0, 14.3, 37.5, 65.4, 58.3, 37.5, 25.0, 0.0, 100.0], "top_stories": [{"title": "蕭美琴驚險突破封鎖抵義大利！北京不爽嗆卑鄙 他讚外交一事：見證歷史", "cat": "政治", "stance": "正面執政", "n": 4, "avg_rank": 3.0, "days": ["2026-09-14", "2026-09-15"]}, {"title": "布克獎執行長親送台灣驚喜禮！ 楊双子與金翎疊影藏深意", "cat": "娛樂影視", "stance": "非政治", "n": 4, "avg_rank": 7.2, "days": ["2026-09-10"]}, {"title": "早出晚歸要加衣了！全台一周溫度表速看 最低溫探22度", "cat": "生活氣象", "stance": "非政治", "n": 3, "avg_rank": 1.0, "days": ["2026-09-10"]}, {"title": "東北季風一波波！下周降雨熱區曝光 周四後中部以北日夜溫差恐達7度", "cat": "生活氣象", "stance": "非政治", "n": 3, "avg_rank": 1.0, "days": ["2026-09-13"]}, {"title": "柯志恩合體蔣萬安六合夜市掃街 現場爆人潮", "cat": "政治", "stance": "中性政治", "n": 3, "avg_rank": 1.0, "days": ["2026-09-20"]}, {"title": "美伊海上互襲 胡塞奪摩卡港、劍指曼德海峽擴大中東戰線", "cat": "國際", "stance": "非政治", "n": 3, "avg_rank": 1.3, "days": ["2026-09-11"]}, {"title": "中國入境新規9/15施行 陸委會示警5類民眾需留意風險", "cat": "政治", "stance": "中性政治", "n": 3, "avg_rank": 1.3, "days": ["2026-09-15"]}, {"title": "竹聯義堂武將「小麥可」協助共諜張俊傑逃亡 曾犯下立法院槍擊案", "cat": "政治", "stance": "批在野", "n": 3, "avg_rank": 1.3, "days": ["2026-09-16"]}, {"title": "輾斃護理師收押看守所！賓士男林祐嘉「倒頭大睡到天亮、早餐吃光」", "cat": "社會", "stance": "非政治", "n": 3, "avg_rank": 2.0, "days": ["2026-09-10"]}, {"title": "板橋造勢湧6千人！李四川喊「新北要2顆蛋」 侯友宜力挺：比我更會做事", "cat": "政治", "stance": "正面在野", "n": 3, "avg_rank": 2.0, "days": ["2026-09-13"]}, {"title": "快訊／台南連鎖機車行嚴重火災！鋼骨變形、新車燒毀…隔壁醫美診所遭殃", "cat": "社會", "stance": "非政治", "n": 3, "avg_rank": 2.0, "days": ["2026-09-20"]}, {"title": "明天的天氣/新颱風杜鵑將生成！最新路徑曝「全台降溫雨下整周」，直到這天才轉晴| 蔡惠芯 | 風生活", "cat": "生活氣象", "stance": "非政治", "n": 3, "avg_rank": 2.7, "days": ["2026-09-11"]}], "src_uni": {"Yahoo新聞": 56, "UDN 聯合報": 55, "三立新聞": 26, "自由時報": 21, "中央社 CNA": 11, "中時新聞網": 11, "鉅亨網": 10, "風傳媒": 7, "鏡週刊": 6, "cna.com.tw": 3, "東森新聞": 3, "NOWnews今日新聞": 2, "tw.news.yahoo.com": 2, "工商時報": 2, "ETtoday新聞雲": 2}, "src_cat": {"Yahoo新聞": {"社會": 6, "政治": 33, "國際": 5, "經濟財經": 2, "娛樂影視": 3, "生活氣象": 7}, "UDN 聯合報": {"生活氣象": 13, "政治": 25, "國際": 8, "經濟財經": 1, "社會": 4, "AI科技": 1, "其他": 2, "體育": 1}, "鉅亨網": {"國際": 7, "AI科技": 1, "經濟財經": 2}, "自由時報": {"政治": 14, "經濟財經": 3, "國際": 2, "其他": 1, "社會": 1}, "中央社 CNA": {"生活氣象": 2, "政治": 6, "社會": 2, "國際": 1}, "民視新聞網": {"政治": 1}, "NOWnews今日新聞": {"政治": 2}, "鏡週刊": {"社會": 1, "政治": 3, "娛樂影視": 1, "生活氣象": 1}, "三立新聞": {"社會": 3, "體育": 1, "政治": 19, "生活氣象": 2, "娛樂影視": 1}, "自由藝文網": {"娛樂影視": 1}, "中時新聞網": {"政治": 7, "國際": 1, "社會": 2, "生活氣象": 1}, "自由電子報3C科技": {"AI科技": 1}, "風傳媒": {"生活氣象": 1, "政治": 5, "經濟財經": 1}, "Newtalk新聞": {"政治": 1}, "tw.news.yahoo.com": {"政治": 1, "生活氣象": 1}, "cna.com.tw": {"政治": 2, "生活氣象": 1}, "BBC": {"國際": 1}, "壹蘋新聞網": {"政治": 1}, "東森新聞": {"社會": 1, "生活氣象": 2}, "公視新聞網PNN": {"政治": 1}, "news.nextapple.com": {"政治": 1}, "health.ltn.com.tw": {"生活氣象": 1}, "工商時報": {"經濟財經": 1, "國際": 1}, "ETtoday新聞雲": {"政治": 2}}, "pol_n_uni": 106, "pol_n_app": 177};
+const S = {"days": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21"], "n_files": 38, "n_rows": 380, "n_unique": 221, "cat_uni": {"政治": 115, "國際": 26, "經濟財經": 7, "AI科技": 3, "社會": 15, "生活氣象": 30, "娛樂影視": 5, "體育": 2, "其他": 18}, "cat_app": {"政治": 196, "國際": 47, "經濟財經": 10, "AI科技": 5, "社會": 22, "生活氣象": 49, "娛樂影視": 11, "體育": 4, "其他": 36}, "focus_day": {"政治": [12, 15, 21, 7, 19, 18, 13, 19, 18, 11, 12, 18, 13], "AI科技": [0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0], "經濟財經": [0, 2, 0, 2, 0, 0, 3, 0, 2, 1, 0, 0, 0], "國際": [2, 7, 6, 2, 0, 4, 6, 5, 0, 2, 5, 2, 6]}, "st_uni": {"批執政": 15, "批在野": 22, "互批": 5, "正面執政": 3, "正面在野": 2, "中性政治": 52}, "st_app": {"批執政": 33, "批在野": 32, "互批": 8, "正面執政": 5, "正面在野": 4, "中性政治": 86}, "st_day": {"批執政": [1, 5, 3, 0, 6, 4, 2, 5, 6, 0, 0, 0, 1], "批在野": [3, 3, 5, 1, 3, 2, 3, 4, 1, 3, 3, 1, 0], "互批": [0, 0, 0, 0, 0, 2, 1, 3, 2, 0, 0, 0, 0], "正面執政": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3], "正面在野": [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0], "中性政治": [4, 4, 8, 6, 3, 10, 6, 4, 5, 10, 6, 14, 6]}, "daily_ratio": [25.0, 62.5, 37.5, 0.0, 66.7, 62.5, 41.7, 54.2, 77.8, 0.0, 0.0, 0.0, 100.0], "top_stories": [{"title": "蕭美琴驚險突破封鎖抵義大利！北京不爽嗆卑鄙 他讚外交一事：見證歷史", "cat": "政治", "stance": "批執政", "n": 4, "avg_rank": 3.0, "days": ["2026-09-14", "2026-09-15"]}, {"title": "布克獎執行長親送台灣驚喜禮！ 楊双子與金翎疊影藏深意", "cat": "娛樂影視", "stance": "非政治", "n": 4, "avg_rank": 7.2, "days": ["2026-09-10"]}, {"title": "早出晚歸要加衣了！全台一周溫度表速看 最低溫探22度", "cat": "生活氣象", "stance": "非政治", "n": 3, "avg_rank": 1.0, "days": ["2026-09-10"]}, {"title": "東北季風一波波！下周降雨熱區曝光 周四後中部以北日夜溫差恐達7度", "cat": "生活氣象", "stance": "非政治", "n": 3, "avg_rank": 1.0, "days": ["2026-09-13"]}, {"title": "柯志恩合體蔣萬安六合夜市掃街 現場爆人潮", "cat": "政治", "stance": "中性政治", "n": 3, "avg_rank": 1.0, "days": ["2026-09-20"]}, {"title": "美伊海上互襲 胡塞奪摩卡港、劍指曼德海峽擴大中東戰線", "cat": "國際", "stance": "非政治", "n": 3, "avg_rank": 1.3, "days": ["2026-09-11"]}, {"title": "中國入境新規9/15施行 陸委會示警5類民眾需留意風險", "cat": "政治", "stance": "中性政治", "n": 3, "avg_rank": 1.3, "days": ["2026-09-15"]}, {"title": "竹聯義堂武將「小麥可」協助共諜張俊傑逃亡 曾犯下立法院槍擊案", "cat": "政治", "stance": "批在野", "n": 3, "avg_rank": 1.3, "days": ["2026-09-16"]}, {"title": "輾斃護理師收押看守所！賓士男林祐嘉「倒頭大睡到天亮、早餐吃光」", "cat": "社會", "stance": "非政治", "n": 3, "avg_rank": 2.0, "days": ["2026-09-10"]}, {"title": "板橋造勢湧6千人！李四川喊「新北要2顆蛋」 侯友宜力挺：比我更會做事", "cat": "政治", "stance": "正面在野", "n": 3, "avg_rank": 2.0, "days": ["2026-09-13"]}, {"title": "快訊／台南連鎖機車行嚴重火災！鋼骨變形、新車燒毀…隔壁醫美診所遭殃", "cat": "其他", "stance": "非政治", "n": 3, "avg_rank": 2.0, "days": ["2026-09-20"]}, {"title": "明天的天氣/新颱風杜鵑將生成！最新路徑曝「全台降溫雨下整周」，直到這天才轉晴| 蔡惠芯 | 風生活", "cat": "生活氣象", "stance": "非政治", "n": 3, "avg_rank": 2.7, "days": ["2026-09-11"]}], "src_uni": {"Yahoo新聞": 56, "UDN 聯合報": 55, "三立新聞": 26, "自由時報": 21, "中央社 CNA": 11, "中時新聞網": 11, "鉅亨網": 10, "風傳媒": 7, "鏡週刊": 6, "cna.com.tw": 3, "東森新聞": 3, "NOWnews今日新聞": 2, "tw.news.yahoo.com": 2, "工商時報": 2, "ETtoday新聞雲": 2}, "src_cat": {"Yahoo新聞": {"社會": 4, "政治": 30, "國際": 5, "經濟財經": 2, "娛樂影視": 3, "生活氣象": 7, "其他": 5}, "UDN 聯合報": {"生活氣象": 13, "政治": 25, "國際": 8, "社會": 3, "AI科技": 1, "其他": 4, "體育": 1}, "鉅亨網": {"國際": 7, "AI科技": 1, "經濟財經": 2}, "自由時報": {"政治": 13, "經濟財經": 3, "國際": 2, "其他": 2, "社會": 1}, "中央社 CNA": {"生活氣象": 2, "政治": 6, "社會": 1, "其他": 1, "國際": 1}, "民視新聞網": {"政治": 1}, "NOWnews今日新聞": {"政治": 2}, "鏡週刊": {"社會": 1, "政治": 2, "娛樂影視": 1, "其他": 1, "生活氣象": 1}, "三立新聞": {"社會": 3, "體育": 1, "政治": 19, "生活氣象": 2, "娛樂影視": 1}, "自由藝文網": {"娛樂影視": 1}, "中時新聞網": {"政治": 7, "國際": 1, "社會": 1, "生活氣象": 1, "其他": 1}, "自由電子報3C科技": {"AI科技": 1}, "風傳媒": {"生活氣象": 1, "政治": 6}, "Newtalk新聞": {"政治": 1}, "tw.news.yahoo.com": {"政治": 1, "生活氣象": 1}, "cna.com.tw": {"政治": 2, "其他": 1}, "BBC": {"國際": 1}, "壹蘋新聞網": {"政治": 1}, "東森新聞": {"社會": 1, "生活氣象": 2}, "公視新聞網PNN": {"政治": 1}, "news.nextapple.com": {"政治": 1}, "health.ltn.com.tw": {"其他": 1}, "工商時報": {"其他": 1, "國際": 1}, "ETtoday新聞雲": {"其他": 1, "政治": 1}}, "pol_n_uni": 99, "pol_n_app": 168};
+
 const DAYS = S.days.map(d=>d.slice(5).replace('-','/'));
 const CATS = ["政治","國際","經濟財經","AI科技","社會","生活氣象","娛樂影視","體育","其他"];
 const CCOL = {政治:"#bc8cff",國際:"#58a6ff",經濟財經:"#d29922",AI科技:"#ff9e64",社會:"#f85149",生活氣象:"#3fb950",娛樂影視:"#f778ba",體育:"#39c5cf",其他:"#8b949e"};
 Chart.defaults.color="#44625c";Chart.defaults.borderColor="#cfe4dd";Chart.defaults.font.family='"Microsoft JhengHei",sans-serif';
 
-// KPI
 const gA=S.st_app["批執政"],bA=S.st_app["批在野"],mA=S.st_app["互批"];
 const critTot=gA+bA+mA;
-const gShare=(100*(gA+0.5*mA)/critTot).toFixed(1), bShare=(100*(bA+0.5*mA)/critTot).toFixed(1);
+const gShare=critTot?(100*(gA+0.5*mA)/critTot).toFixed(1):"—", bShare=critTot?(100*(bA+0.5*mA)/critTot).toFixed(1):"—";
 const lastDay=S.days[S.days.length-1];
 document.getElementById("kpis").innerHTML=[
  [S.days[0].slice(5).replace('-','/')+"–"+lastDay.slice(5).replace('-','/'),"分析期間("+S.days.length+"天)",""],
@@ -591,23 +142,21 @@ new Chart(cStack,{type:"bar",data:{labels:DAYS,datasets:[
  {label:"批在野(藍白)",data:S.st_day["批在野"],backgroundColor:"#58a6ff"},
  {label:"互批",data:S.st_day["互批"],backgroundColor:"#d29922"}]},options:{scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
 new Chart(cStance,{type:"doughnut",data:{labels:["批執政","批在野","互批","正面執政","正面在野","中性政治"],datasets:[{data:["批執政","批在野","互批","正面執政","正面在野","中性政治"].map(s=>S.st_uni[s]),backgroundColor:["#f85149","#58a6ff","#d29922","#3fb950","#1f6feb","#8b949e"]}]},options:{plugins:{legend:{position:"right"}}}});
-new Chart(cRatio,{type:"line",data:{labels:DAYS,datasets:[{label:"批判指向執政 %",data:S.daily_ratio,borderColor:"#f85149",backgroundColor:"rgba(248,81,73,.12)",fill:true,tension:.3}]},options:{scales:{y:{min:0,max:100}}}});
+new Chart(cRatio,{type:"line",data:{labels:DAYS,datasets:[{label:"批判指向執政 %",data:S.daily_ratio,borderColor:"#f85149",backgroundColor:"rgba(248,81,73,.12)",fill:true,tension:.3,spanNulls:false}]},options:{scales:{y:{min:0,max:100}}}});
 
-// top stories table
 const badge=c=>({政治:"b-pol",國際:"b-intl",經濟財經:"b-eco",AI科技:"b-ai",社會:"b-soc",生活氣象:"b-life",娛樂影視:"b-ent",體育:"b-spo",其他:"b-oth"}[c]||"b-oth");
 const sbadge=s=>({"批執政":"s-g","批在野":"s-b","互批":"s-m","正面執政":"s-ng","正面在野":"s-nb"}[s]||"s-n");
 document.getElementById("tTop").innerHTML="<tr><th>#</th><th>新聞標題</th><th>類別</th><th>立場</th><th>上榜</th><th>均名</th><th>出現日</th></tr>"+
  S.top_stories.map((t,i)=>`<tr><td>${i+1}</td><td>${t.title}</td><td><span class="badge ${badge(t.cat)}">${t.cat}</span></td><td><span class="badge ${sbadge(t.stance)}">${t.stance}</span></td><td>${t.n}</td><td>${t.avg_rank}</td><td style="white-space:nowrap">${t.days.map(d=>d.slice(5).replace('-','/')).join(", ")}</td></tr>`).join("");
 
-// sources
 const srcs=Object.keys(S.src_uni).slice(0,10);
 new Chart(cSrc,{type:"bar",data:{labels:srcs,datasets:[{data:srcs.map(s=>S.src_uni[s]),backgroundColor:"#58a6ff"}]},options:{indexAxis:"y",plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}});
 new Chart(cSrcCat,{type:"bar",data:{labels:srcs,datasets:CATS.filter(c=>c!=="其他").map(c=>({label:c,data:srcs.map(s=>(S.src_cat[s]||{})[c]||0),backgroundColor:CCOL[c]}))},options:{scales:{x:{stacked:true},y:{stacked:true}}}});
 
 document.getElementById("foot").innerHTML=
 `方法說明:同一新聞標題跨快照去重後計為 1 則;「聲量」= 上榜筆次(重複進榜累計)。<br>
-立場判定以關鍵字規則(批判動詞、醜聞詞、正面詞 + 政治人物陣營詞庫)自動分類,並經逐則人工覆核修正,惟標題語意複雜,仍可能存在少數誤判。<br>
-「高金素梅/張俊傑」相關新聞歸入在野陣營(無黨籍,國民黨團成員)。資料期間 ${S.days[0].replace(/-/g,"/")}–${lastDay.replace(/-/g,"/")},共 ${S.n_files} 個快照、${S.n_rows} 筆上榜記錄、${S.n_unique} 則不重複新聞。`;
+分類與立場為關鍵字規則自動判定,未經人工逐則覆核,語意模糊標題可能誤判。<br>
+資料期間 ${S.days[0].replace(/-/g,"/")}–${lastDay.replace(/-/g,"/")},共 ${S.n_files} 個快照、${S.n_rows} 筆上榜記錄、${S.n_unique} 則不重複新聞。本頁由每週排程自動重建。`;
 </script>
 </body>
 </html>
